@@ -1,0 +1,15 @@
+# Project exclude paths
+/.gradle/
+/RobotActivityLibrary/build/
+/RobotActivityLibrary/build/intermediates/javac/debug/classes/
+/RobotDevSample/build/
+/RobotDevSample/build/intermediates/javac/debug/classes/
+/RobotSensorSample/build/
+/RobotSensorSample/build/intermediates/javac/debug/classes/
+/ZenboDialogSample/build/
+/ZenboDialogSample/build/intermediates/javac/debug/classes/
+/ZenboGoToLocation/build/
+/ZenboGoToLocation/build/intermediates/javac/debug/classes/
+/ZenboHelloWorld/build/
+/ZenboHelloWorld/build/intermediates/javac/debug/classes/
+/ZenboHelloWorld/build/intermediates/javac/debugUnitTest/classes/
