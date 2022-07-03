@@ -1,5 +1,7 @@
 package com.robot.asus.ZenboHelloWorld;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.asus.robotframework.API.MotionControl;
@@ -13,6 +15,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends RobotActivity {
     public int state = 0;
+    private MediaPlayer player;
     public static RobotCallback robotCallback = new RobotCallback() {
         @Override
         public void onResult(int cmd, int serial, RobotErrorCode err_code, Bundle result) {
@@ -67,6 +70,7 @@ public class MainActivity extends RobotActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        player = new MediaPlayer();
         //setContentView(R.layout.activity_main);
     }
 
@@ -82,8 +86,28 @@ public class MainActivity extends RobotActivity {
         float theta = (float) 6.28;
         if (state == 1){
             robotAPI.robot.setExpression(RobotFace.SHOCKED);
+        }else if(state == 2){
+            robotAPI.motion.moveBody(0, 0, theta, MotionControl.SpeedLevel.Body.L2);
+        }else if(state == 3){
+            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + "music0");
+            try{
+                player.reset();
+                player = MediaPlayer.create(getApplicationContext(), uri);
+                player.start();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
         }
-        robotAPI.motion.moveBody(0, 0, theta, MotionControl.SpeedLevel.Body.L2);
-        robotAPI.motion.moveBody(0, 0, theta, MotionControl.SpeedLevel.Body.L2);
+        /*
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + "music0");
+        try{
+            player.reset();
+            player = MediaPlayer.create(getApplicationContext(), uri);
+            player.start();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        */
+        //robotAPI.motion.moveBody(0, 0, theta, MotionControl.SpeedLevel.Body.L2);
     }
 }
