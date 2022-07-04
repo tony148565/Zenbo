@@ -1,11 +1,13 @@
-import java.io.BufferedReader; 
+package com.robot.asus.ZenboHelloWorld;
+
+import java.io.BufferedReader;
 import java.io.IOException; 
 import java.io.InputStreamReader; 
 import java.net.ServerSocket; 
 import java.net.Socket;
 
 public class HTTPServer {
-    public static String State;
+    public static String state;
 
     public static void Get() throws IOException { 
         ServerSocket server = new ServerSocket(3000); 
@@ -18,7 +20,7 @@ public class HTTPServer {
             while (!line.isEmpty()) { 
                 System.out.println(line); 
                 line = reader.readLine(); 
-                State = line;
+                state = line;
             } 
         }
     }

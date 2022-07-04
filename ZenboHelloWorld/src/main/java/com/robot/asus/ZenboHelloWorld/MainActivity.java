@@ -10,6 +10,7 @@ import com.asus.robotframework.API.RobotCmdState;
 import com.asus.robotframework.API.RobotErrorCode;
 import com.asus.robotframework.API.RobotFace;
 import com.robot.asus.robotactivity.RobotActivity;
+import com.robot.asus.ZenboHelloWorld.HTTPServer;
 
 import java.io.BufferedReader;
 import java.io.IOException; 
@@ -20,8 +21,9 @@ import java.net.Socket;
 import org.json.JSONObject;
 
 public class MainActivity extends RobotActivity {
-    //public int state = 0;
+    public int state = 0;
     private MediaPlayer player;
+    HTTPServer server;
     public static RobotCallback robotCallback = new RobotCallback() {
         @Override
         public void onResult(int cmd, int serial, RobotErrorCode err_code, Bundle result) {
@@ -78,9 +80,13 @@ public class MainActivity extends RobotActivity {
         super.onCreate(savedInstanceState);
         player = new MediaPlayer();
         
-        HTTPServer server = new HTTPServer();
+        server = new HTTPServer();
         //Start to get signal
-        server.Get();
+        try {
+            HTTPServer.Get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //setContentView(R.layout.activity_main);
     }
 
@@ -93,12 +99,23 @@ public class MainActivity extends RobotActivity {
         super.onResume();        
         System.out.println("Hello world");
         robotAPI.robot.setExpression(RobotFace.DEFAULT);
+        try{
+            state = Integer.parseInt(server.state);
+        }catch(Exception e){
+            robotAPI.robot.setExpression(RobotFace.LAZY); // debug
+            e.printStackTrace();
+        }
+
         float theta = (float) 6.28;
-        if (Integer.parseInt(server.State) == 1){
+        if (state == 1){
             robotAPI.robot.setExpression(RobotFace.SHOCKED);
-        }else if(Integer.parseInt(server.State) == 2){
+            state = 0;
+        }
+        if(state == 2){
             robotAPI.motion.moveBody(0, 0, theta, MotionControl.SpeedLevel.Body.L2);
-        }else if(Integer.parseInt(server.State) == 3){
+            state = 0;
+        }
+        if(state == 3){
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + "music0");
             try{
                 player.reset();
@@ -107,6 +124,7 @@ public class MainActivity extends RobotActivity {
             }catch(Exception e){
                 e.printStackTrace();
             }
+            state = 0;
         }
         /*
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + "music0");
