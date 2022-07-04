@@ -102,7 +102,7 @@ public class MainActivity extends RobotActivity {
         try{
             state = Integer.parseInt(server.state);
         }catch(Exception e){
-            robotAPI.robot.setExpression(RobotFace.LAZY); // debug
+            robotAPI.robot.setExpression(RobotFace.LAZY);  // debug
             e.printStackTrace();
         }
 
