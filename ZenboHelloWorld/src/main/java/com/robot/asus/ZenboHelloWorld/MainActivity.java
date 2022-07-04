@@ -10,11 +10,12 @@ import com.asus.robotframework.API.RobotCmdState;
 import com.asus.robotframework.API.RobotErrorCode;
 import com.asus.robotframework.API.RobotFace;
 import com.robot.asus.robotactivity.RobotActivity;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONObject;
 
 public class MainActivity extends RobotActivity {
-    public int state = 0;
+    public int state = 1;
     private MediaPlayer player;
     public static RobotCallback robotCallback = new RobotCallback() {
         @Override
@@ -86,8 +87,20 @@ public class MainActivity extends RobotActivity {
         float theta = (float) 6.28;
         if (state == 1){
             robotAPI.robot.setExpression(RobotFace.SHOCKED);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            state = 0;
         }else if(state == 2){
             robotAPI.motion.moveBody(0, 0, theta, MotionControl.SpeedLevel.Body.L2);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            state = 0;
         }else if(state == 3){
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + "music0");
             try{
@@ -97,6 +110,12 @@ public class MainActivity extends RobotActivity {
             }catch(Exception e){
                 e.printStackTrace();
             }
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            state = 0;
         }
         /*
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + "music0");
